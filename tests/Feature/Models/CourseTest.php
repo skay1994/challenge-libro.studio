@@ -10,7 +10,7 @@ test('Course list all', function () {
     $course = $courses->first();
     $response = $this->getJson(route('courses.index'));
 
-    $response->assertStatus(200);
+    $response->assertOk();
     $response->assertJson([
         'data' => [
             [
@@ -31,7 +31,7 @@ test('Course list with limit', function () {
         'limit' => 5
     ]));
 
-    $response->assertStatus(200);
+    $response->assertOk();
     $response->assertJson([
         'data' => [
             [
@@ -52,7 +52,7 @@ test('Course list with page', function () {
         'page' => 5
     ]));
 
-    $response->assertStatus(200);
+    $response->assertOk();
     $response->assertJson([
         'meta' => [
             'total' => 100,
@@ -73,7 +73,7 @@ test('Course list with search', function () {
         'search' => "some"
     ]));
 
-    $response->assertStatus(200);
+    $response->assertOk();
     $response->assertJson([
         'data' => [
             [
