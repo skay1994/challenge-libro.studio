@@ -65,7 +65,7 @@ test('Course list with search', function () {
     Course::factory(20)->create();
 
     $courses = Course::factory(10)->create([
-        'title' => 'Some '.fake()->name,
+        'title' => 'Some ' . fake()->name,
     ]);
     $course = $courses->first();
 
@@ -88,7 +88,7 @@ test('Course list with search', function () {
 });
 
 test('Create course', function () {
-    $response = $this->postJson(route('courses.store'),  [
+    $response = $this->postJson(route('courses.store'), [
         'title' => fake()->name,
         'description' => fake()->sentence,
     ]);
@@ -97,7 +97,7 @@ test('Create course', function () {
 });
 
 test('Create course without description', function () {
-    $response = $this->postJson(route('courses.store'),  [
+    $response = $this->postJson(route('courses.store'), [
         'title' => fake()->name,
     ]);
     $response->assertOk();
@@ -105,7 +105,7 @@ test('Create course without description', function () {
 });
 
 test('Course Create fail by invalid description size', function () {
-    $response = $this->postJson(route('courses.store'),  [
+    $response = $this->postJson(route('courses.store'), [
         'title' => fake()->name,
         'description' => '123',
     ]);
@@ -114,9 +114,50 @@ test('Course Create fail by invalid description size', function () {
 });
 
 test('Course Create fail by missing title', function () {
-    $response = $this->postJson(route('courses.store'),  [
+    $response = $this->postJson(route('courses.store'), [
         'description' => fake()->sentence,
     ]);
     $response->assertUnprocessable()
         ->assertJsonValidationErrorFor('title');
+});
+
+test('Update curse', function () {
+    $course = Course::factory()->create();
+    $title = 'Course Updated';
+    $response = $this->putJson(route('courses.update', ['course' => $course->getKey()]), [
+        'title' => $title,
+    ]);
+
+    $response->assertOk()
+        ->assertJson(['data' => ['title' => $title]]);
+
+    $this->assertDatabaseCount('courses', 1)
+        ->assertDatabaseHas('courses', [
+            'title' => $title
+        ]);
+});
+
+test('Update curse fail by invalid description', function () {
+    $course = Course::factory()->create();
+    $response = $this->putJson(route('courses.update', ['course' => $course->getKey()]), [
+        'title' => $course->title,
+        'description' => '123',
+    ]);
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrorFor('description');
+});
+
+test('Update curse fail by missing title', function () {
+    $course = Course::factory()->create();
+    $response = $this->putJson(route('courses.update', ['course' => $course->getKey()]), [
+        'description' => $course->description,
+    ]);
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrorFor('title');
+});
+
+
+test('Update curse fail by not found', function () {
+    $response = $this->putJson(route('courses.update', ['course' => '999']));
+    $response->assertNotFound();
 });
