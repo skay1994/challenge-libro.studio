@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Models\Course;
+
 interface CourseRepositoryContract
 {
     /**
@@ -15,4 +17,11 @@ interface CourseRepositoryContract
      * @return mixed
      */
     public function store(array $data);
+
+    /**
+     * @param Course $course
+     * @param array $data
+     * @return mixed
+     */
+    public function update(Course $course, array $data);
 }

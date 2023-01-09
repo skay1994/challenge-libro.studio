@@ -40,4 +40,26 @@ class CourseRepository implements CourseRepositoryContract
             ]);
         }
     }
+
+    public function update(Course $course, array $data)
+    {
+        DB::beginTransaction();
+
+        try {
+            $course->update($data);
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'data' => $course
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
