@@ -44,4 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'birthday_at' => 'date'
     ];
+
+    public function scopeSearch(Builder|self $query, string $search)
+    {
+        $search = strtolower("%$search%");
+        $query->where('name', 'like', $search)
+            ->orWhere('email', 'like', $search);
+    }
 }
