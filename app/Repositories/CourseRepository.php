@@ -62,4 +62,23 @@ class CourseRepository implements CourseRepositoryContract
             ]);
         }
     }
+
+    public function destroy(Course $course)
+    {
+        DB::beginTransaction();
+
+        try {
+            $course->delete();
+            DB::commit();
+            return response()->json([
+                'success' => true,
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }

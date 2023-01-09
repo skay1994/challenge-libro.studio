@@ -24,4 +24,10 @@ interface CourseRepositoryContract
      * @return mixed
      */
     public function update(Course $course, array $data);
+
+    /**
+     * @param Course $course
+     * @return mixed
+     */
+    public function destroy(Course $course);
 }
