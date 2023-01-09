@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -116,4 +117,33 @@ test('List with search by email', function () {
             'total' => 2,
         ]
     ]);
+});
+
+test('Delete Course', function () {
+    $user = User::factory()->create();
+
+    $response = $this->deleteJson(route('users.destroy', ['user' => $user->getKey()]));
+    $response->assertOk();
+
+    $this->assertDatabaseCount('users', 0);
+});
+
+test('Delete Course with course', function () {
+    $course = Course::factory()->create();
+    $user = User::factory()->create();
+    $user->courses()->sync([$course->getKey()]);
+
+    $response = $this->deleteJson(route('users.destroy', ['user' => $user->getKey()]));
+    $response->assertOk();
+
+    $this->assertDatabaseCount('users', 0);
+    $this->assertDatabaseMissing('course_user', [
+        'user_id' => $user->getKey(),
+        'course_id' => $course->getKey()
+    ]);
+});
+
+test('Delete User with error by not found', function () {
+    $response = $this->deleteJson(route('users.destroy', ['user' => 99]));
+    $response->assertNotFound();
 });
