@@ -24,4 +24,10 @@ interface UserRepositoryContract
      * @return mixed
      */
     public function update(User $user, array $data);
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function destroy(User $user);
 }

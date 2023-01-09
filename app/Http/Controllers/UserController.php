@@ -39,4 +39,9 @@ class UserController extends Controller
         $data = $request->safe()->all();
         return $this->repository->update($user, $data);
     }
+
+    public function destroy(User $user)
+    {
+        return $this->repository->destroy($user);
+    }
 }

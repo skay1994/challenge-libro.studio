@@ -79,4 +79,24 @@ class UserRepository implements UserRepositoryContract
             ]);
         }
     }
+
+    public function destroy(User $user)
+    {
+        DB::beginTransaction();
+
+        try {
+            $user->courses()->sync([]);
+            $user->delete();
+            DB::commit();
+            return response()->json([
+                'success' => true,
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
