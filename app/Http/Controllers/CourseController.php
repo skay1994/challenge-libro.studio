@@ -34,16 +34,10 @@ class CourseController extends Controller
         return new CourseResource($course);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCourseRequest  $request
-     * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateCourseRequest $request, Course $course)
+    public function update(StoreCourseRequest $request, Course $course)
     {
-        //
+        $data = $request->safe()->all();
+        return $this->repository->update($course, $data);
     }
 
     /**
