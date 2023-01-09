@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\{CourseController, UserController};
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +16,7 @@ use App\Http\Controllers\CourseController;
 |
 */
 
+Route::resource('users', UserController::class);
 Route::resource('courses', CourseController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
