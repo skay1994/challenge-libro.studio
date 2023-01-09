@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Models\User;
+
 interface UserRepositoryContract
 {
     /**
@@ -9,4 +11,10 @@ interface UserRepositoryContract
      * @return mixed
      */
     public function getAll(array $data);
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function store(array $data);
 }
