@@ -7,6 +7,57 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Docker
+
+Imagem docker diponivel, use o comando abaixo:
+```sh 
+docker compose up server mysql -d
+```
+
+Ou com [DDEV](https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/)
+
+```sh
+ddev start
+```
+
+## Inicialização
+
+1. Inicie a maquina dockerv
+2. Faça copia do arquivo .env.example e renomeie para .env
+3. Acesse o terminal da maquina docker
+4. Rode o comando para criar a chave da aplicação
+5. Rode o comando para criar as migrations no banco de dados
+6. Use o app Insomnia e importe o backup Insomnia_2032-01-09.json
+
+### Comandos
+
+#### Acessar maquina
+
+Acessar maquina docker.
+
+```shell
+docker compose exec server /bin/sh
+```
+
+#### Chave de criptografia
+```shell
+php artisan key:generate --ansi
+```
+
+#### Migrations
+
+Parar rodar as migrations.
+
+```shell
+php artisan migrate
+```
+
+#### Testes
+Parar rodar os testes.
+```shell
+php artisan test
+```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
