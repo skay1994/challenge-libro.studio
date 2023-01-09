@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\{CourseController, UserController};
+use App\Http\Controllers\{CourseController, UserController, RegisterController};
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +18,10 @@ use App\Http\Controllers\{CourseController, UserController};
 
 Route::resource('users', UserController::class);
 Route::resource('courses', CourseController::class);
+Route::prefix('registries')->name('registries.')->group(function () {
+    Route::post('add', [RegisterController::class, 'add'])->name('add');
+    Route::post('remove', [RegisterController::class, 'remove'])->name('remove');
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
