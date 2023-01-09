@@ -52,4 +52,31 @@ class UserRepository implements UserRepositoryContract
             ]);
         }
     }
+
+    public function update(User $user, array $data)
+    {
+        DB::beginTransaction();
+
+        try {
+            $user->update($data);
+
+            if(isset($data['course_id'])) {
+                $user->courses()->sync($data['course_id']);
+                $user->load('courses');
+            }
+
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'data' => new UserResource($user)
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }

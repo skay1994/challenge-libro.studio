@@ -17,4 +17,11 @@ interface UserRepositoryContract
      * @return mixed
      */
     public function store(array $data);
+
+    /**
+     * @param User $user
+     * @param array $data
+     * @return mixed
+     */
+    public function update(User $user, array $data);
 }

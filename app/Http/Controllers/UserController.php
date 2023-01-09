@@ -33,4 +33,10 @@ class UserController extends Controller
     {
         return new UserResource($user);
     }
+
+    public function update(StoreUserRequest $request, User $user)
+    {
+        $data = $request->safe()->all();
+        return $this->repository->update($user, $data);
+    }
 }
