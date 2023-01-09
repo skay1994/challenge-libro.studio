@@ -68,6 +68,7 @@ class CourseRepository implements CourseRepositoryContract
         DB::beginTransaction();
 
         try {
+            $course->users()->sync([]);
             $course->delete();
             DB::commit();
             return response()->json([
