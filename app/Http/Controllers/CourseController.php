@@ -23,16 +23,10 @@ class CourseController extends Controller
         return $this->repository->getAll($data);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCourseRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreCourseRequest $request)
     {
-        //
+        $data = $request->safe()->all();
+        return $this->repository->store($data);
     }
 
     /**
