@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+    server:
+        container_name: "server"
+        build: .
+        entrypoint: php artisan serve --host 0.0.0.0
+        volumes:
+            - .:/usr/src/app
+        working_dir: /usr/src/app
+        ports:
+            - "8000:8000"
+        networks:
+            - server
+    db:
+        image: mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: db
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: db
+        networks:
+            - server
+
+networks:
+    server:
