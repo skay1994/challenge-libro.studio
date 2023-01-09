@@ -86,3 +86,37 @@ test('Course list with search', function () {
         ]
     ]);
 });
+
+test('Create course', function () {
+    $response = $this->postJson(route('courses.store'),  [
+        'title' => fake()->name,
+        'description' => fake()->sentence,
+    ]);
+    $response->assertOk();
+    $this->assertDatabaseCount('courses', 1);
+});
+
+test('Create course without description', function () {
+    $response = $this->postJson(route('courses.store'),  [
+        'title' => fake()->name,
+    ]);
+    $response->assertOk();
+    $this->assertDatabaseCount('courses', 1);
+});
+
+test('Course Create fail by invalid description size', function () {
+    $response = $this->postJson(route('courses.store'),  [
+        'title' => fake()->name,
+        'description' => '123',
+    ]);
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrorFor('description');
+});
+
+test('Course Create fail by missing title', function () {
+    $response = $this->postJson(route('courses.store'),  [
+        'description' => fake()->sentence,
+    ]);
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrorFor('title');
+});
