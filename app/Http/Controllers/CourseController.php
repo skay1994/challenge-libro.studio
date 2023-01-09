@@ -29,12 +29,6 @@ class CourseController extends Controller
         return $this->repository->store($data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Course  $course
-     * @return CourseResource
-     */
     public function show(Course $course)
     {
         return new CourseResource($course);
