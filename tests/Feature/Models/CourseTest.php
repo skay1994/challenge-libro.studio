@@ -156,8 +156,21 @@ test('Update curse fail by missing title', function () {
         ->assertJsonValidationErrorFor('title');
 });
 
-
 test('Update curse fail by not found', function () {
     $response = $this->putJson(route('courses.update', ['course' => '999']));
     $response->assertNotFound();
+});
+
+test('Delete Course', function () {
+    $course = Course::factory()->create();
+
+    $response = $this->deleteJson(route('courses.destroy', ['course' => $course->getKey()]));
+    $response->assertOk();
+
+    $this->assertDatabaseCount('courses', 0);
+});
+
+test('Delete Course with error by not found', function () {
+    $response = $this->deleteJson(route('courses.destroy', ['course' => 99]));
+    $response->assertStatus(404);
 });
